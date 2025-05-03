@@ -1,6 +1,6 @@
 "use client";
 
-import AddClient from "../../components/AddClient";
+import AddClient from "@/components/page/clients/AddClient";
 import React from "react";
 import withAuth from "@/app/Utils/withAuth";
 

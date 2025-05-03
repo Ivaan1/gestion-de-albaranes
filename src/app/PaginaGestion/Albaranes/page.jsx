@@ -1,6 +1,6 @@
 "use client";
 
-import ListAlbaranes from "@/app/components/ListAlbaranes";
+import ListAlbaranes from "@/components/page/albaranes/ListAlbaranes";
 import withAuth from "@/app/Utils/withAuth";
 import React from "react";
 

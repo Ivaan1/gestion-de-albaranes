@@ -1,6 +1,6 @@
 "use client";
 
-import ListProjects from "@/app/components/ListProjects";
+import ListProjects from "@/components/page/projects/ListProjects";
 import React from "react";
 import withAuth from "@/app/Utils/withAuth";
 

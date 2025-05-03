@@ -1,5 +1,4 @@
-import EmailVerification from "../components/EmailVerification";
-
+import EmailVerification from "@/components/page/auth/EmailVerification";
 
 export default function Home() {
 

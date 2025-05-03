@@ -1,7 +1,7 @@
 "use client";
 
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+import Header from "@/components/menu/Header";
+import Sidebar from "@/components/menu/Sidebar";
 import React, {useState, useEffect} from 'react';
 import { useForm} from 'react-hook-form';
 import axios from 'axios';

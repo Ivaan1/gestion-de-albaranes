@@ -46,7 +46,7 @@ const RegisterForm = () => {
       console.log('email :', email);
 
       saveToken(token, userId);
-      router.push(`/VerificarEmail?userId=${userId}`)
+      router.push(`/auth/VerificarEmail?userId=${userId}`)
 
 
     } catch (error) {

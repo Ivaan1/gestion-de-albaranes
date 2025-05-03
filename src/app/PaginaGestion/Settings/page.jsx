@@ -1,6 +1,6 @@
 "use client";
 
-import DeleteAccount from "@/app/components/DeleteAccount";
+import DeleteAccount from "@/components/DeleteAccount";
 import React from "react";
 import withAuth from "@/app/Utils/withAuth";
 

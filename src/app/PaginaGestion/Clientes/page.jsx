@@ -1,6 +1,6 @@
 "use client";
 
-import ListClients from "@/app/components/ListClients";
+import ListClients from "@/components/page/clients/ListClients";
 import withAuth from "@/app/Utils/withAuth";
 import React from "react";
 

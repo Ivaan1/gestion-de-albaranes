@@ -1,6 +1,6 @@
 
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar';
+import Header from '@/components/menu/Header'
+import Sidebar from '@/components/menu/Sidebar';
 
 
 const DashboardLayout = ({ children }) => {
