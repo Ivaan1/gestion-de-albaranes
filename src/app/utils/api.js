@@ -12,7 +12,7 @@ async function loginUser({ email, password }) {
             password
         }, {
             headers: {
-                "Content-Type": "application/json",
+                ContentType: "application/json",
             },
         });
 
@@ -46,7 +46,7 @@ async function registerUser(userData) {
             },
             {
                 headers: {
-                    "Content-Type": "application/json",
+                    ContentType: "application/json",
                 },
             });
 
@@ -96,6 +96,7 @@ async function getUser(token) {
     try {
         const response = await axios.get(`${url}/auth/user`, {
             headers: {
+                ContentType: "application/json",
                 Authorization: `Bearer ${token}`,
             },
         });
@@ -108,9 +109,35 @@ async function getUser(token) {
     }
 }
 
+//obtener todos los clientes
+async function getClients(token) {
+    try {
+        const response = await axios.get(`${url}/clients`, {
+            headers: {
+                ContentType: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            const clients = response.data;
+      
+            if (!clients || clients.length === 0) {
+              console.log("No hay clientes.");
+              return [];
+            }
+      
+            return clients;
+          }
+    } catch (error) {
+        console.error("Error al obtener los clientes:", error);
+    }
+}
+
 
 export {
     loginUser,
     registerUser,
-    getUser
+    getUser,
+    getClients
 }
