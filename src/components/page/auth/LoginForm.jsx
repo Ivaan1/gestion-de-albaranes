@@ -4,7 +4,7 @@ import {React,  useState } from 'react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { loginUser, getUser } from '@/app/utils/api';
+import { loginUser } from '@/app/utils/api';
 import Loading from '@/components/menu/loading';
 
 const LoginForm = () => {
@@ -31,7 +31,6 @@ const handleSubmit = async (e) => {
   	setErrorMessage("");
   	setIsLoading(true);
 
-  	let token = null;
 
   	try {
 
@@ -41,17 +40,13 @@ const handleSubmit = async (e) => {
 			return; // Detener el flujo si falta un campo
 		  }
 		  
-    	token = await loginUser(formData); 
+    	const token = await loginUser(formData); 
 
     	if (token) {
       		Cookies.set('jwt', token);
-      		const user = await getUser(token);
-      		if (!user) throw new Error("Error en el logueo");
-
-      		Cookies.set("user", JSON.stringify(user));
       		router.push('/PaginaGestion');
     	}else{
-      	setErrorMessage("Usuario o contraseña no válidos");
+      		setErrorMessage("Usuario o contraseña no válidos");
     	}	
   	}catch (error){
       console.error('Error al intentar iniciar sesión:', error);
