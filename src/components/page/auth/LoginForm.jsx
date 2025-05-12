@@ -30,17 +30,18 @@ const handleSubmit = async (e) => {
   	e.preventDefault();
   	setErrorMessage("");
   	setIsLoading(true);
-
+	let token = null;
 
   	try {
-
+	
 		if (!formData.email || !formData.password) {
 			setErrorMessage("Por favor ingresa tu correo y contraseña.");
 			setIsLoading(false);
 			return; // Detener el flujo si falta un campo
 		  }
 		  
-    	const token = await loginUser(formData); 
+    	token = await loginUser(formData); 
+		
 
     	if (token) {
       		Cookies.set('jwt', token);
