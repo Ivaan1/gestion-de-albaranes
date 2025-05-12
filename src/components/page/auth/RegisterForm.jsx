@@ -50,6 +50,7 @@ const RegisterForm = () => {
             sameSite: "strict"
           });
 
+
         //guardamos el token en el localStorage
         localStorage.setItem("token", token);
 
