@@ -2,7 +2,6 @@
 
 import AddClient from "@/components/page/clients/AddClient";
 import React from "react";
-import withAuth from "@/app/Utils/withAuth";
 
 const CrearCliente = () => {
 
@@ -12,4 +11,4 @@ const CrearCliente = () => {
    </div>
   );
 }
-export default withAuth(CrearCliente);
+export default CrearCliente;

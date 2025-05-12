@@ -1,7 +1,6 @@
 "use client";
 
 import ListAlbaranes from "@/components/page/albaranes/ListAlbaranes";
-import withAuth from "@/app/Utils/withAuth";
 import React from "react";
 
 const Albaranes = () => {
@@ -18,4 +17,4 @@ const Albaranes = () => {
 
 
 }
-export default withAuth(Albaranes);
+export default Albaranes;
