@@ -44,7 +44,7 @@ const PaginaGestion = () => {
         {clientes.length === 0 ? (
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <img
-            src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+            src="https://static.vecteezy.com/system/resources/thumbnails/021/249/018/small/confused-man-thinking-of-problem-solution-png.png"
             alt="Sin clientes"
             style={{ width: "150px", marginBottom: "1rem" }}
           />
@@ -58,9 +58,9 @@ const PaginaGestion = () => {
         </button>
         <ul>
           {clientes.map((cliente) => (
-            <li key={cliente.id}>
-              <p>{cliente.nombre}</p>
-                <Link href="/PaginaGestion/Clientes">Ver Detalles</Link>
+            <li key={cliente._id}>
+              <p>{cliente.name}</p>
+                <Link href="/PaginaGestion/Clientes">Ver Detalles </Link> 
                 <Link href="/PaginaGestion/Clientes">Editar</Link>
             </li>
           ))}

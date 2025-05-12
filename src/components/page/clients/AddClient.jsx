@@ -1,32 +1,30 @@
 "use client";
 
-import React, {useState} from 'react';
-import { useForm} from 'react-hook-form';
-import axios from 'axios';
+import React, {useState, useRef} from 'react';
+import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { addClient } from '@/app/utils/api';
 
 
 
 const AddClient = () => {
-
-  const [errorMessage, setErrorMessage] = useState(null); // Estado para el mensaje de error
-
-  const [ Success, setSuccess ] = useState('');
-
+    
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [Message, setMessage] = useState(null); // Estado para el mensaje de error
+  const [ Success, setSuccess ] = useState('');
+  const formRef = useRef(null);
   
   const router = useRouter();
   const [showModal, setShowModal] = useState(false); // Controla el modal
 
-  const searchParams = useSearchParams();  
-  const userId = searchParams.get('userId');
-
 
   const handleDiscard = () => {
     console.log("Cambios descartados");
-    document.getElementById("myForm").reset(); // Restablece el formulario
+    if (formRef.current) {
+      formRef.current.reset(); // Restablece el formulario utilizando la referencia
+    }
     console.log("Formulario descartado");
     setSuccess("");
   };
@@ -34,43 +32,45 @@ const AddClient = () => {
 
    const onSubmit = async (data) => {
     try {
-        console.log ("Datos enviados : ", data);
-        const token = Cookies.get(`user_${userId}`);
+        const token = Cookies.get("jwt") || localStorage.getItem("token");
+        console.log("token : ", token);
 
-        const domicilio = data.Domicilio;
-        const [street, number, postal, city, province] = domicilio.split(",").map(s => s.trim());
-
-       const response = await axios.post('https://bildy-rpmaya.koyeb.app/api/client', {
-        name: data.name,
-        cif: data.CIF,
-        address: {
-            street,  
-            number: parseInt(number),  
-            postal: parseInt(postal), 
-            city,    
-            province 
+        if (!token) {
+            console.error("Token no disponible");
+            return;
           }
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
 
-      console.log("Cliente guardado con exito")
-      setSuccess("Cliente guardado con exito.")
+        const clientData = {
+            name: data.name,
+            email: data.email,
+            address: {
+              street: data.street,
+              number: parseInt(data.number),
+              postal: parseInt(data.postal),
+              city: data.city,
+              province: data.province
+            },
+            cif: data.cif
+        };
+
+        console.log("clientData", clientData);
+
+        await addClient(token , clientData); // Asegúrate de que `addClient` esté implementado correctamente
+        setMessage("Cliente agregado exitosamente.");
+
       setShowModal(true); // Muestra el modal después de crear el cliente
 
     } catch (error) {
-        setErrorMessage("Ocurrio un error. Intentelo de nuevo mas tarde.")
+        setMessage("Ocurrio un error. Intentelo de nuevo mas tarde.")
     }
   };
 
   const handleLinkProject = () => {
     console.log("Vinculando cliente con un proyecto...");
-    router.push(`/PaginaGestion/Proyectos?userId=${userId}`);
+    router.push(`/PaginaGestion/Proyectos`);
     setShowModal(false); // Cierra el modal después de la acción
   };
+
   const handleCloseModal = () => {
     setShowModal(false); // Cierra el modal sin vincular
   };
@@ -86,7 +86,7 @@ const AddClient = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             
-        <form onSubmit={handleSubmit(onSubmit)} id="myForm">
+        <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
         
           <div >
              <label  className="block text-sm/6 font-medium text-gray-900 ">Nombre del Cliente o empresa</label>
@@ -98,45 +98,91 @@ const AddClient = () => {
                            required className='block w-full rounded-md bg-white px-3 py-1.5 text-base 
                            text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 
                            placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 
-                           focus:outline-indigo-600 sm:text-sm/6'
-                           onChange={() => setErrorMessage('')} // Limpia el error cuando cambia el correo
+                           focus:outline-indigo-600 sm:text-sm/6'                        
                          />
+                          {errors.name && <p>{errors.name.message}</p>}
                          
                     </div>
            </div>  
-      
-           <div className='mt-2'>
-                
-                 <label  className="block text-sm/6 font-medium text-gray-900">Domicilio Fiscal</label>
-                 <p className=' italic block text-sm font-medium text-gray-900'>ej "calle de las Rosas, 23, 28025 Madrid"</p>
-                 
-                     <div className='mt-2'>
-                        <input
-                          type="textarea"
-                          placeholder="Introduzca el domicilio"
-                         {...register('Domicilio')}
-                         required className="block w-full rounded-md bg-white px-3 py-1.5 text-base 
-                         text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 
-                         placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 
-                         focus:outline-indigo-600 sm:text-sm/6"
+
+           <div >
+             <label  className="block text-sm/6 font-medium text-gray-900 ">Contacto de la empresa (mail)</label>
+                  <div className='mt-2'>
+                          <input
+                          type="email"
+                          placeholder="Introduce el correo electronico"
+                           {...register('email', { required: true })}
+                           required className='block w-full rounded-md bg-white px-3 py-1.5 text-base 
+                           text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 
+                           placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 
+                           focus:outline-indigo-600 sm:text-sm/6'                        
                          />
+                          {errors.name && <p>{errors.name.message}</p>}
                          
-                    </div> 
+                    </div>
+           </div> 
+      
+
+           <div className='mt-4'>
+                <label className="block text-sm font-medium text-gray-900 mb-1">Domicilio Fiscal</label>
+  
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                    type="text"
+                    placeholder="Calle"
+                    {...register('street', { required: "La calle es obligatoria" })}
+                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+                    />
+                    {errors.street && <p>{errors.street.message}</p>}
+
+                    <input
+                    type="number"
+                    placeholder="Número"
+                    {...register('number', { required: "El número es obligatorio" })}
+                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+                    />
+                    {errors.number && <p>{errors.number.message}</p>}
+
+                    <input
+                    type="number"
+                    placeholder="Código Postal"
+                    {...register('postal', { required: "El código postal es obligatorio" })}
+                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+                    />
+                    {errors.postal && <p>{errors.postal.message}</p>}
+
+                    <input
+                    type="text"
+                    placeholder="Ciudad"
+                    {...register('city', { required: "La ciudad es obligatoria" })}
+                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+                    />
+                    {errors.city && <p>{errors.city.message}</p>}
+
+                    <input
+                    type="text"
+                    placeholder="Provincia"
+                    {...register("province", { required: "La provincia es obligatoria" })}
+                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+                 />
+                  {errors.province && <p>{errors.province.message}</p>}
+                </div>
             </div>
+            
+            
             <div className='mt-2'>
                 
-                 <label  className="block text-sm/6 font-medium text-gray-900">CIF</label>
+                 <label  className="block text-sm/6 font-medium text-gray-900">CIF (si aplica)</label>
                  
                      <div className='mt-2'>
                         <input
                           type="text"
                           placeholder="Introduzca el CIF"
-                         {...register('CIF')}
-                         required className="block w-full rounded-md bg-white px-3 py-1.5 text-base 
+                         {...register('cif')}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base 
                          text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 
                          placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 
                          focus:outline-indigo-600 sm:text-sm/6"
-                         onChange={() => setErrorMessage('')}
                          />
                          
                     </div> 
@@ -161,9 +207,9 @@ const AddClient = () => {
               Descartar</button>
           </div>
             <div className='mt-5'>
-            {errorMessage && (
+            {Message && (
                 <div className='text-sm font-medium text-red-600 mb-2'>
-                      {errorMessage}
+                      {Message}
                  </div>
                 )}
 

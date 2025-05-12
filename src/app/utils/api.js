@@ -12,7 +12,7 @@ async function loginUser({ email, password }) {
             password
         }, {
             headers: {
-                ContentType: "application/json",
+                "Content-Type": "application/json",
             },
         });
 
@@ -46,7 +46,7 @@ async function registerUser(userData) {
             },
             {
                 headers: {
-                    ContentType: "application/json",
+                    "Content-Type": "application/json",
                 },
             });
 
@@ -96,8 +96,8 @@ async function getUser(token) {
     try {
         const response = await axios.get(`${url}/auth/user`, {
             headers: {
-                ContentType: "application/json",
-                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${token}`,
             },
         });
 
@@ -114,8 +114,8 @@ async function getClients(token) {
     try {
         const response = await axios.get(`${url}/clients`, {
             headers: {
-                ContentType: "application/json",
-                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${token}`,
             },
         });
 
@@ -134,10 +134,37 @@ async function getClients(token) {
     }
 }
 
+async function addClient(token, clientData) {
+    try {
+
+        const response = await axios.post(`${url}/clients`, clientData, {
+            headers: {
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+
+    } catch (error) {
+        if (error.response) {
+            console.error("Mensaje del servidor:", error.response.data);
+        }else if (error.request) {
+            console.error("Error de solicitud:", error.request);
+        } else {
+            console.error("Error:", error.message);
+        }
+
+    }
+}
+
 
 export {
     loginUser,
     registerUser,
     getUser,
-    getClients
+    getClients,
+    addClient
 }
