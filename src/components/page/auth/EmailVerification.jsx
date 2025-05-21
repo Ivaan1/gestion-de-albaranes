@@ -3,6 +3,7 @@
 import React,{ useState, useEffect, useRef } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { validationCode } from '@/app/utils/api';
 
 const EmailVerification = () => {
 
@@ -28,42 +29,30 @@ const EmailVerification = () => {
     const verificationCode = parseInt(code.join(""), 10);
     try {
 
-        const url = "http://192.168.1.16:5000/api";
-        const token = localStorage.getItem("token") || Cookies.get("jwt");
+      const token = localStorage.getItem("token") || Cookies.get("jwt");
+
       if (!token) {
-        setMessage("Token no encontrado. Por favor, vuelve a iniciar sesión.");
+        setMessage("Token no encontrado.");
         return;
       }
+      const response = await validationCode(token, verificationCode);
+      
+      console.log("respuesta de validationcode : " + response);
+      if (response.user.validated) {
+        Cookies.set("jwt", response.token, {
+            expires: 180,
+            path: "/",
+            secure: true,
+            sameSite: "strict"
+        });
+        localStorage.setItem("token", response.token);
+        router.push("/PaginaGestion");
 
-      console.log("verificacionCode", verificationCode);
-
-      const res = await fetch(`${url}/auth/validation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify({ code: verificationCode }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setMessage(data.error || "Error en la validación");
-        return;
-      }
-
-      if (data.validated) {
-        setMessage("Usuario validado correctamente.");
-        // Update the user cookie with validation status
-
-        // Redirect to home or dashboard after successful validation
-        setTimeout(() => {
-          router.push("/");
-        }, 1500);
       } else {
-        setMessage(`Código incorrecto. Intentos restantes: ${data.tries}`);
+        const tries = response.user.tries;
+        setMessage("Código de verificación incorrecto. Le quedan ${tries} intentos.");
       }
+
     } catch (error) {
       console.error(error);
       setMessage("Ocurrió un error inesperado. Inténtalo de nuevo.");
