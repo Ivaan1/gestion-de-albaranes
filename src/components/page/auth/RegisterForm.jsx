@@ -35,12 +35,14 @@ const RegisterForm = () => {
 
     try {
         console.log(formData);
-        const token = await registerUser(formData);
+        const result = await registerUser(formData);
         
-        if (!token) {
-            setErrorMessage("Error en el registro");
-            return;
+        if (!result || !result.token) {
+          setErrorMessage("Error en el registro");
+          return;
         }
+
+        const token = result.token;
 
         //guardamos el token en las cookies 
         Cookies.set("jwt", token, {
@@ -53,6 +55,9 @@ const RegisterForm = () => {
 
         //guardamos el token en el localStorage
         localStorage.setItem("token", token);
+
+        localStorage.setItem('user', JSON.stringify(result.user));
+
 
         router.push("/auth/VerificarEmail");
 
