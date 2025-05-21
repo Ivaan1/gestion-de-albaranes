@@ -105,6 +105,26 @@ async function getClients(token) {
     }
 }
 
+async function getClient(token, clientId) {
+    try {
+        const response = await axios.get(`${url}/clients/${clientId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            return response.data;
+        }
+        else {
+            console.error("Error al obtener el cliente:", response.data);
+        }
+    }
+    catch (error) {
+        console.error("Error al obtener el cliente:", error);
+    }
+}
+
 async function addClient(token, clientData) {
     try {
 
@@ -175,13 +195,59 @@ async function getLoggedUser(token) {
     }
 }
 
+async function getProjects(token) {
+    try {
+        const response = await axios.get(`${url}/projects`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+        else {
+            console.error("Error al obtener los proyectos:", response.data);
+        }
+    }
+    catch (error) {
+        console.error("Error al obtener los proyectos:", error);
+    }
+}
+async function getProject(tokem, projectId) {
+}
+
+async function addProject(token, projectData) {
+    try {
+        const response = await axios.post(`${url}/projects`, projectData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            return response.data;
+        }
+        else {
+            console.error("Error al agregar el proyecto:", response.data);
+        }
+    }catch (error) {
+        console.error("Error al agregar el proyecto:", error);
+    }
+}
+ 
 
 export {
     loginUser,
     registerUser,
     getUser,
     getClients,
+    getClient,
     addClient,
     validationCode,
-    getLoggedUser
+    getLoggedUser,
+    getProjects,
+    getProject,
+    addProject,
 }
