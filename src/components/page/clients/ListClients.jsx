@@ -6,6 +6,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { getClients } from '@/app/utils/api';
 
 
 
@@ -30,16 +31,11 @@ const ListClients = () => {
     useEffect(() => {
         const fetchUserClients = async () => {
           try {
-            const token = Cookies.get(`user_${userId}`); // Asegúrate de que el token esté almacenado con el userId
-    
-            const response = await axios.get(`https://bildy-rpmaya.koyeb.app/api/client`,{
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-           setClients (response.data);
-           console.log("Clientes recogidos");
-           console.log(response.data);
+            const token = Cookies.get('token') || localStorage.getItem('token'); 
+
+            const clientes = await getClients(token);
+
+           setClients (clientes);
           
           } catch (error) {
     
@@ -48,30 +44,6 @@ const ListClients = () => {
         };
         fetchUserClients();
     }, [userId]); // Ejecutar el efecto cuando `userId` cambie
-
-    useEffect(() => {
-        const fetchUserProject = async () => {
-          try {
-            const token = Cookies.get(`user_${userId}`); // Asegúrate de que el token esté almacenado con el userId
-    
-            const response = await axios.get(`https://bildy-rpmaya.koyeb.app/api/project`,{
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-
-           setProjects (response.data);
-           console.log("Proyectos recogidos");
-           console.log(response.data);
-          
-          } catch (error) {
-    
-            console.error("Error al obtener a los proyectos", error);
-          }
-        };
-        fetchUserProject();
-    }, [userId]); // Ejecutar el efecto cuando `userId` cambie
-  
 
 
     return (
