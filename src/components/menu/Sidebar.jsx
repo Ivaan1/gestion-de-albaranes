@@ -30,7 +30,7 @@ const Sidebar = () => {
       outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 
       hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 
       focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
-      <Link href = {`/PaginaGestion/Clientes?userId=${userId}`}>
+      <Link href = {`/PaginaGestion/Clientes`}>
       Clientes
       </Link>
     </div>
@@ -39,7 +39,7 @@ const Sidebar = () => {
       rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 
       hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 
       active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
-    <Link href = {`/PaginaGestion/Proyectos?userId=${userId}`}>
+    <Link href = {`/PaginaGestion/Proyectos`}>
       Proyectos
       </Link>
     </div>
@@ -49,7 +49,7 @@ const Sidebar = () => {
       outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 
       focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 
       active:bg-opacity-80 active:text-blue-gray-900">
-      <Link href = {`/PaginaGestion/Albaranes?userId=${userId}`}>
+      <Link href = {`/PaginaGestion/Albaranes`}>
       Albaranes
       </Link>
     </div>
@@ -57,14 +57,14 @@ const Sidebar = () => {
     <div role="button"
       className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
 
-<Link href = {`/PaginaGestion/Profile?userId=${userId}`}>
+<Link href = {`/PaginaGestion/Profile`}>
       Profile
       </Link>
     </div>
     <div role="button"
       className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
 
-<Link href = {`/PaginaGestion/Settings?userId=${userId}`}>
+<Link href = {`/PaginaGestion/Settings`}>
       Settings
       </Link>
     </div>
