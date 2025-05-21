@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import axios from "axios";
 
-const url = "http://192.168.1.16:5000/api";
+const url = "http://localhost:5000/api";
 
 async function loginUser({ email, password }) {
     try{
@@ -20,19 +20,13 @@ async function loginUser({ email, password }) {
             console.log("Inicio de sesión exitoso");
             const token = response.data.token;
             return token;
+        }else {
+            console.error("Error en el inicio de sesión:", response.data);
         }
         
-        throw new Error("Usuario o contraseña no válidos.");
     }catch (error) {
-        if (error.response) {
-            const message = error.response.data?.message || 'Error en login';
-            throw new Error(message);
-
-          } else if (error.request) {
-            throw new Error('No se pudo conectar con el servidor');
-          } else {
-            throw new Error('Error desconocido al iniciar sesión');
-          }
+        const message = error.response.data?.message || 'Error en login';
+        console.error("Error en login:", message);
     }
 }
 
@@ -49,45 +43,15 @@ async function registerUser(userData) {
                     "Content-Type": "application/json",
                 },
             });
-
-        console.log("Registro exitoso");
-        const token = response.data.token;
-        return token;
+        if (response.status == 200) {   
+            console.log("Registro exitoso");
+            return response.data;    
+        }else { 
+            console.error("Error en el registro:", response.data);
+        }
 
     }catch (error) {
-        if (error.response) {
-            console.log('Error Status:', error.response.status); // Muestra el código de estado HTTP
-            console.log('Error Data:', error.response.data); // Muestra los datos del error, que deberían contener el mensaje
-
-            // Mejorar el manejo de errores para capturar diferentes estructuras
-            let errorMessage = 'Error en el registro';
-            
-           // Verificar si hay errores de validación
-           if (error.response.data?.errors && Array.isArray(error.response.data.errors)) {
-            // Manejar errores de validación (como el que mostraste antes)
-            const validationErrors = error.response.data.errors
-                .map(err => `${err.path}: ${err.msg}`)
-                .join(', ');
-            errorMessage = `Errores de validación: ${validationErrors}`;
-            } 
-            // Si hay un mensaje directo
-            else if (error.response.data?.message) {
-                errorMessage = error.response.data.message;
-            } 
-            // Si el error es una cadena directa
-            else if (typeof error.response.data === 'string') {
-                errorMessage = error.response.data;
-            }
-        
-        throw new Error(errorMessage);
-          } else if (error.request) {
-            console.log('Error Request:', error.request); // Ver la solicitud que se intentó
-            throw new Error('No se pudo conectar con el servidor');
-
-          } else {
-            console.log('Error desconocido:', error.message); // Log del error general
-            throw new Error('Error desconocido al iniciar sesión');
-          }
+        console.error("Error en el registro:", error);
     }
 };
 
@@ -103,7 +67,10 @@ async function getUser(token) {
 
         if (response.status === 200) {
             return response.data;
+        }else {
+            console.error("Error al obtener el usuario:", response.data);
         }
+
     } catch (error) {
         console.error("Error al obtener el usuario:", error);
     }
@@ -128,9 +95,13 @@ async function getClients(token) {
             }
       
             return clients;
+          }else {
+            console.error("Error al obtener los clientes:", response.data);
+            return [];  
           }
     } catch (error) {
         console.error("Error al obtener los clientes:", error);
+        
     }
 }
 
@@ -146,17 +117,61 @@ async function addClient(token, clientData) {
 
         if (response.status === 200) {
             return response.data;
+        }else {
+            console.error("Error al agregar el cliente:", response.data);
         }
 
     } catch (error) {
-        if (error.response) {
-            console.error("Mensaje del servidor:", error.response.data);
-        }else if (error.request) {
-            console.error("Error de solicitud:", error.request);
-        } else {
-            console.error("Error:", error.message);
+        console.error("Error al agregar el cliente:", error);
+    }
+}
+
+async function validationCode(token, code){
+    try {
+        const response = await axios.post(`${url}/auth/validation`, {
+            code
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            if(response.data.user.validated){
+                console.log("Código de verificación correcto");
+                console.log(response.data);
+                return response.data;
+            }else{
+                console.error("Código de verificación incorrecto");
+                return response.data;
+            }
+        }else {
+            console.error("Error en la verificación:", response.data);
         }
 
+    } catch (error) {
+        console.error("Error al verificar el código:", error);
+    }
+}
+
+async function getLoggedUser(token) {
+    try{
+        const response = await axios.get(`${url}/users/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+        else {
+            console.error("Error al obtener el usuario:", response.data);
+        }
+    }catch (error) {
+        console.error("Error al obtener el usuario:", error);
     }
 }
 
@@ -166,5 +181,7 @@ export {
     registerUser,
     getUser,
     getClients,
-    addClient
+    addClient,
+    validationCode,
+    getLoggedUser
 }
