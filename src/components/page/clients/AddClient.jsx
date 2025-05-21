@@ -106,7 +106,7 @@ const AddClient = () => {
            </div>  
 
            <div >
-             <label  className="block text-sm/6 font-medium text-gray-900 ">Contacto de la empresa (mail)</label>
+             <label  className="block text-sm/6 font-medium text-gray-900 ">Correo de la empresa</label>
                   <div className='mt-2'>
                           <input
                           type="email"
@@ -172,7 +172,7 @@ const AddClient = () => {
             
             <div className='mt-2'>
                 
-                 <label  className="block text-sm/6 font-medium text-gray-900">CIF (si aplica)</label>
+                 <label  className="block text-sm/6 font-medium text-gray-900">CIF (obligatorio)</label>
                  
                      <div className='mt-2'>
                         <input
