@@ -24,6 +24,44 @@ const EmailVerification = () => {
     }
   };
 
+  // Nuevo manejador para el evento paste
+  const handlePaste = (e, index) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text').replace(/\D/g, ''); // Solo números
+    
+    if (pastedData.length >= 6) {
+      // Si el código pegado tiene 6 dígitos o más, llenar todos los campos
+      const newCode = [...code];
+      for (let i = 0; i < 6; i++) {
+        newCode[i] = pastedData[i] || "";
+      }
+      setCode(newCode);
+      
+      // Enfocar el último campo lleno o el último campo
+      const lastFilledIndex = Math.min(pastedData.length - 1, 5);
+      inputRefs.current[lastFilledIndex].focus();
+    } else if (pastedData.length > 0) {
+      // Si el código es más corto, llenar desde la posición actual
+      const newCode = [...code];
+      for (let i = 0; i < pastedData.length && (index + i) < 6; i++) {
+        newCode[index + i] = pastedData[i];
+      }
+      setCode(newCode);
+      
+      // Enfocar el siguiente campo disponible
+      const nextIndex = Math.min(index + pastedData.length, 5);
+      inputRefs.current[nextIndex].focus();
+    }
+  };
+
+  // Manejar teclas especiales como backspace
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace' && !code[index] && index > 0) {
+      // Si presiona backspace en un campo vacío, ir al anterior
+      inputRefs.current[index - 1].focus();
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const verificationCode = parseInt(code.join(""), 10);
@@ -82,6 +120,8 @@ const EmailVerification = () => {
                   className="w-12 h-12 text-center text-2xl border border-gray-300 rounded focus:outline-none focus:ring focus:ring-black"
                   value={digit}
                   onChange={(e) => handleChange(e.target.value, index)}
+                  onPaste={(e) => handlePaste(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
                   ref={(el) => (inputRefs.current[index] = el)}
                 />
               ))}
