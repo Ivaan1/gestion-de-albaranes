@@ -104,44 +104,10 @@ const ListProjects = () => {
                                     </div>
                                 </div>
 
-                                {/* Dirección */}
+                                {/* Descripcion */}
                                 <div className="bg-gray-50 p-4 rounded-lg">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-3">Dirección</h3>
-                                    {selectedProject.address ? (
-                                        <div className="space-y-2">
-                                            <div>
-                                                <span className="text-gray-600">Calle:</span>
-                                                <p className="font-medium">{selectedProject.address.street}</p>
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-600">Número:</span>
-                                                <p className="font-medium">{selectedProject.address.number}</p>
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-600">Código Postal:</span>
-                                                <p className="font-medium">{selectedProject.address.postal}</p>
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-600">Ciudad:</span>
-                                                <p className="font-medium">{selectedProject.address.city}</p>
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-600">Provincia:</span>
-                                                <p className="font-medium">{selectedProject.address.province}</p>
-                                            </div>
-                                            {/* Dirección completa */}
-                                            <div className="mt-3 pt-3 border-t border-gray-200">
-                                                <span className="text-gray-600">Dirección completa:</span>
-                                                <p className="font-medium text-gray-800">
-                                                    {selectedProject.address.street} {selectedProject.address.number}, 
-                                                    {selectedProject.address.postal} {selectedProject.address.city}, 
-                                                    {selectedProject.address.province}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <p className="text-gray-500">No hay información de dirección disponible</p>
-                                    )}
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-3">Descripcion</h3>
+                                    <p className="text-gray-600">{selectedProject.description || 'No hay descripción disponible'}</p>
                                 </div>
                             </div>
 

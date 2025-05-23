@@ -50,13 +50,7 @@ const AddProjects = () => {
             const payload = {
                 name: data.name,
                 projectCode: data.projectcode, // Cambiado de 'projectcode' a 'projectCode'
-                address: {
-                    street: data.address.street,
-                    number: data.address.number,
-                    postal: data.address.postal,
-                    city: data.address.city,
-                    province: data.address.province
-                },
+                description: data.description,
                 code: data.codigointerno, // Cambiado de 'codigointerno' a 'code'
                 clientId: data.client,
             };
@@ -118,66 +112,22 @@ const AddProjects = () => {
                          />
                     </div>
            </div>
-
            <div>
-                <label className="block text-sm/6 font-medium text-gray-900">Dirección</label>
-                <div className="mt-2 space-y-2">
-                    <input
-                    type="text"
-                    placeholder="Calle"
-                    {...register('address.street', { required: true })}
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base
-                         text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
-                         placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
-                      focus:outline-indigo-600 sm:text-sm/6"
-                    onChange={() => setErrorMessage('')}
-                    />
-
-                    <input
-                      type="number"
-                      placeholder="Número"
-                      {...register('address.number', { required: true, valueAsNumber: true })}
-                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base
-                                 text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
-                                 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
-                                 focus:outline-indigo-600 sm:text-sm/6"
-                      onChange={() => setErrorMessage('')}
-                    />
-
-                    <input
-                      type="number"
-                      placeholder="Código Postal"
-                      {...register('address.postal', { required: true, valueAsNumber: true })}
-                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base
-                                 text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
-                                 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
-                                 focus:outline-indigo-600 sm:text-sm/6"
-                      onChange={() => setErrorMessage('')}
-                    />
-
-                    <input
-                      type="text"
-                      placeholder="Ciudad"
-                      {...register('address.city', { required: true })}
-                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base
-                                 text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
-                                 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
-                                 focus:outline-indigo-600 sm:text-sm/6"
-                      onChange={() => setErrorMessage('')}
-                    />
-
-                    <input
-                      type="text"
-                      placeholder="Provincia"
-                      {...register('address.province', { required: true })}
-                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base
-                                 text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300
-                                 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
-                                 focus:outline-indigo-600 sm:text-sm/6"
-                      onChange={() => setErrorMessage('')}
-                    />
-                </div>
-            </div>
+                <label className="block text-sm/6 font-medium text-gray-900 ">Descripcion</label>
+                    <div className='mt-2'>
+                            <input
+                            type="text"
+                            placeholder="Introduce la descripcion"
+                             {...register('description', { required: true })}
+                             className='block w-full rounded-md bg-white px-3 py-1.5 text-base 
+                             text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 
+                             placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 
+                             focus:outline-indigo-600 sm:text-sm/6'
+                             onChange={() => setErrorMessage('')}
+                             />
+                        </div>
+            
+           </div>
 
            <div>
              <label className="block text-sm/6 font-medium text-gray-900 ">Codigo interno</label>
