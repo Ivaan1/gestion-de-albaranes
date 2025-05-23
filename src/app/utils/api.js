@@ -226,14 +226,18 @@ async function addProject(token, projectData) {
                 "Authorization": `Bearer ${token}`,
             },
         });
-        if (response.status === 200) {
+        
+        // Verificar si la respuesta es exitosa (200-299)
+        if (response.status >= 200 && response.status < 300) {
             return response.data;
-        }
-        else {
+        } else {
             console.error("Error al agregar el proyecto:", response.data);
+            throw new Error(`Error del servidor: ${response.status}`);
         }
-    }catch (error) {
+    } catch (error) {
         console.error("Error al agregar el proyecto:", error);
+        // Re-lanzar el error para que el componente pueda manejarlo
+        throw error;
     }
 }
 async function getAlbaranes(token) {
