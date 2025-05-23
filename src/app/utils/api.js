@@ -264,6 +264,25 @@ async function getAlbaran(token, albaranId) {
 }
 
 async function addAlbaran(token, albaranData) {
+    try {
+        const response = await axios.post(`${url}/albaranes`, albaranData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        // Verificar si la respuesta es exitosa (200-299)
+        if (response.status >= 200 && response.status < 300) {
+            return response.data;
+        } else {
+            console.error("Error al agregar el albarán:", response.data);
+            throw new Error(`Error del servidor: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error al agregar el albarán:", error);
+        // Re-lanzar el error para que el componente pueda manejarlo
+        throw error;
+    }
 }
 
 
