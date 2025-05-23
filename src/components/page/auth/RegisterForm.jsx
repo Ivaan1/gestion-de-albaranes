@@ -33,8 +33,17 @@ const RegisterForm = () => {
     setErrorMessage("");
     setIsLoading(true);
 
+    // Validación manual de contraseña
+    const password = formData.password;
+
+    if (!password || password.length < 8 || password.length > 16) {
+        setErrorMessage("La contraseña debe tener entre 8 y 16 caracteres.");
+        setIsLoading(false);
+        return;
+    }
+
+
     try {
-        console.log(formData);
         const result = await registerUser(formData);
         
         if (!result || !result.token) {
