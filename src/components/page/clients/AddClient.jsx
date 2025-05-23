@@ -56,7 +56,7 @@ const AddClient = () => {
         console.log("clientData", clientData);
 
         await addClient(token , clientData); // Asegúrate de que `addClient` esté implementado correctamente
-        setMessage("Cliente agregado exitosamente.");
+        setSuccess("Cliente agregado exitosamente.");
 
       setShowModal(true); // Muestra el modal después de crear el cliente
 
@@ -139,7 +139,7 @@ const AddClient = () => {
                     type="number"
                     placeholder="Número"
                     {...register('number', { required: "El número es obligatorio" })}
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     {errors.number && <p>{errors.number.message}</p>}
 
@@ -147,7 +147,7 @@ const AddClient = () => {
                     type="number"
                     placeholder="Código Postal"
                     {...register('postal', { required: "El código postal es obligatorio" })}
-                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600"
+                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-indigo-600  [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     {errors.postal && <p>{errors.postal.message}</p>}
 
@@ -214,7 +214,7 @@ const AddClient = () => {
                 )}
 
         {Success && (
-                <div className='text-sm font-medium text-red-600 mb-2'>
+                <div className='text-sm font-medium text-green-600 mb-2'>
                       {Success}
                  </div>
                 )}
