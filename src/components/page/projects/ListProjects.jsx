@@ -28,26 +28,36 @@ const ListProjects = () => {
     
     };
 
-    useEffect(() => {
-        const fetchUserProject = async () => {
-          try {
-            const token = Cookies.get('token') || localStorage.getItem('token'); 
-            const response = await getProjects(token);
+
+    const fetchUserProject = async () => {
+        try {
+         const token = Cookies.get('token') || localStorage.getItem('token'); 
+         const response = await getProjects(token);
             setProjects (response.data);
             console.log("Proyectos recogidos");
           } catch (error) {
             console.error("Error al obtener a los proyectos", error);
           }
         };
-        fetchUserProject();
-    }, [userId]); // Ejecutar el efecto cuando `userId` cambie
   
+   const handleProjectAdded = (newProject) => {
+        // Recargar toda la lista desde el servidor
+        fetchUserProject();
+        
+    };
+
+    useEffect(() => {
+        fetchUserProject();
+    }, []);
+  
+
 
 
     return (
         <div>
             <div className='p-4'>
-                <AddProjects />
+                {/* Pasar la función de actualización como prop */}
+                <AddProjects onProjectAdded={handleProjectAdded} />
             </div>
             
             <div className="flex">
