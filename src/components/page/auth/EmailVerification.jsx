@@ -50,7 +50,7 @@ const EmailVerification = () => {
 
       } else {
         const tries = response.user.tries;
-        setMessage("Código de verificación incorrecto. Le quedan ${tries} intentos.");
+        setMessage(`Código de verificación incorrecto. Le quedan ${tries} intentos.`);
       }
 
     } catch (error) {
