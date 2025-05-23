@@ -42,14 +42,15 @@ const PaginaGestion = () => {
         <h2 className=' mb-9 text-center text-2xl/9 font-bold tracking-tight text-gray-900'>Bienvenido</h2>
       
         {clientes.length === 0 ? (
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        <div className="text-center mt-8">
           <img
             src="https://static.vecteezy.com/system/resources/thumbnails/021/249/018/small/confused-man-thinking-of-problem-solution-png.png"
             alt="Sin clientes"
-            style={{ width: "150px", marginBottom: "1rem" }}
+            className="w-[150px] mx-auto mb-4"
           />
           <p>Aún no tienes ningún cliente.</p>
-          <Link href="/PaginaGestion/CrearCliente">Crear un cliente ahora</Link>
+          <br />
+          <Link  className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" href="/PaginaGestion/CrearCliente">Crear un cliente ahora</Link>
         </div>
       ) : (
         <div>
