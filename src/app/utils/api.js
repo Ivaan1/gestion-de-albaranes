@@ -236,6 +236,33 @@ async function addProject(token, projectData) {
         console.error("Error al agregar el proyecto:", error);
     }
 }
+async function getAlbaranes(token) {
+    try {
+        const response = await axios.get(`${url}/albaranes`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            return response.data;
+        }
+        else {
+            console.error("Error al obtener los albaranes:", response.data);
+        }
+    }
+    catch (error) {
+        console.error("Error al obtener los albaranes:", error);
+    }
+}
+
+async function getAlbaran(token, albaranId) {
+}
+
+async function addAlbaran(token, albaranData) {
+}
+
+
  
 
 export {
@@ -250,4 +277,7 @@ export {
     getProjects,
     getProject,
     addProject,
+    getAlbaranes,
+    getAlbaran,
+    addAlbaran,
 }
