@@ -137,6 +137,13 @@ const ListClients = () => {
                                         {selectedClient.activeProjects || 0}
                                     </span>
                                 </div>
+
+                                <div className="bg-gray-50 p-3 rounded-lg">
+                                    <strong className="text-gray-700">Albaranes Pendientes:</strong>
+                                    <span className="ml-2 text-gray-900">
+                                        {selectedClient.pendingDeliveryNotes || 0}
+                                    </span>
+                                </div>
                             </div>
 
                             {/* Dirección */}
