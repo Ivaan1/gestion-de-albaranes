@@ -101,7 +101,7 @@ async function getClients(token) {
           }
     } catch (error) {
         console.error("Error al obtener los clientes:", error);
-        
+        return [];
     }
 }
 
@@ -215,7 +215,38 @@ async function getProjects(token) {
         console.error("Error al obtener los proyectos:", error);
     }
 }
-async function getProject(tokem, projectId) {
+async function getProjectById(projectId, token) {
+    try {
+        const response = await axios.get(`${url}/projects/${projectId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error al obtener el proyecto:", error);
+    }
+}   
+
+async function updateProject(token, projectId, projectData) {
+    try {
+        const response = await axios.put(`${url}/projects/${projectId}`, projectData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        }
+    
+    }catch(error){
+        console.error("Error al actualizar el proyecto:", error);
+    }
 }
 
 async function addProject(token, projectData) {
@@ -271,18 +302,73 @@ async function addAlbaran(token, albaranData) {
                 "Authorization": `Bearer ${token}`,
             },
         });
-        // Verificar si la respuesta es exitosa (200-299)
-        if (response.status >= 200 && response.status < 300) {
-            return response.data;
-        } else {
-            console.error("Error al agregar el albarán:", response.data);
-            throw new Error(`Error del servidor: ${response.status}`);
-        }
+
+        return response.data
+
     } catch (error) {
         console.error("Error al agregar el albarán:", error);
-        // Re-lanzar el error para que el componente pueda manejarlo
+}
+}
+
+async function getAlbaranesByProject(token, projectId) {
+    try {
+        const response = await axios.get(`${url}/albaranes/project/${projectId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error al obtener los albaranes del proyecto:", error);
+        return [];
+    }
+}
+
+async function generateAlbaranPDF(albaranId, token) {
+  try {
+    const response = await axios.patch(
+      `${url}/albaranes/pdf/${albaranId}`,
+      {}, // cuerpo vacío
+      {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        }
+      }
+    );
+
+    return response.data; // Podría ser un mensaje de éxito
+  } catch (error) {
+    console.error("Error al generar el PDF del albarán:", error);
+    throw error;
+  }
+}
+
+
+
+async function uploadSignature(albaranId, signatureFile, token) {
+    try {
+        const formData = new FormData();
+        formData.append('image', signatureFile);
+
+        const response = await axios.patch(`${url}/albaranes/sign/${albaranId}`, formData, {
+            headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "multipart/form-data"
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error al subir la firma:", error);
         throw error;
     }
+}
+
+// En api.js
+function getSignedPDFUrl(albaranId) {
+    return `${url}/albaranes/pdf/${albaranId}`;
 }
 
 
@@ -298,9 +384,14 @@ export {
     validationCode,
     getLoggedUser,
     getProjects,
-    getProject,
+    getProjectById,
+    updateProject,
     addProject,
     getAlbaranes,
     getAlbaran,
     addAlbaran,
+    getAlbaranesByProject,
+    generateAlbaranPDF,
+    uploadSignature,
+    getSignedPDFUrl,
 }
