@@ -89,8 +89,20 @@ const ListProjects = () => {
                     {selectedProject ? (
                         <div className="bg-white">
                             <div className="mb-6">
-                                <h1 className='text-2xl font-bold text-gray-900 mb-2'>{selectedProject.name}</h1>
-                                <p className="text-gray-600">Código del proyecto: <span className="font-semibold">{selectedProject.projectCode}</span></p>
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h1 className='text-2xl font-bold text-gray-900 mb-2'>{selectedProject.name}</h1>
+                                        <p className="text-gray-600">Código del proyecto: <span className="font-semibold">{selectedProject.projectCode}</span></p>
+                                    </div>
+                                    <Link href={`/PaginaGestion/Proyectos/Update/${selectedProject._id}`}>
+                                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-105">
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                            <span className="font-semibold">Editar Proyecto</span>
+                                        </button>
+                                    </Link>
+                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
