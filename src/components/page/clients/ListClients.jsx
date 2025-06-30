@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getClients } from '@/app/utils/api';
+import Cookies from 'js-cookie';
 
 const ListClients = () => {
     const searchParams = useSearchParams();
@@ -37,13 +38,16 @@ const ListClients = () => {
                 setLoading(true);
                 setError(null);
                 
-                const token = getToken();
+                const token = Cookies.get('jwt') || localStorage.getItem('jwt');
+
                 
                 if (!token) {
                     throw new Error('No authentication token found');
                 }
 
                 const clientes = await getClients(token);
+                console.log("Token utilizado:", token);
+                console.log("Clientes obtenidos:", clientes);
                 setClients(clientes || []);
                 
             } catch (error) {

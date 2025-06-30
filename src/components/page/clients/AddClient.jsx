@@ -32,7 +32,7 @@ const AddClient = () => {
 
    const onSubmit = async (data) => {
     try {
-        const token = Cookies.get("jwt") || localStorage.getItem("token");
+        const token = Cookies.get("jwt") || localStorage.getItem("jwt");
         console.log("token : ", token);
 
         if (!token) {
@@ -55,7 +55,7 @@ const AddClient = () => {
 
         console.log("clientData", clientData);
 
-        await addClient(token , clientData); // Asegúrate de que `addClient` esté implementado correctamente
+        await addClient(token , clientData); 
         setSuccess("Cliente agregado exitosamente.");
 
       setShowModal(true); // Muestra el modal después de crear el cliente
