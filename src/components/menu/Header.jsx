@@ -13,7 +13,7 @@ function Header() {
     useEffect(() => {
         const fetchUser = async () => {
         try {
-            const token = localStorage.getItem("token") || Cookies.get("jwt");
+            const token = localStorage.getItem("jwt") || Cookies.get("jwt");
             const response = await getLoggedUser(token);
             if (!token) {
                 console.error("Token no encontrado.");

@@ -63,7 +63,7 @@ const RegisterForm = () => {
 
 
         //guardamos el token en el localStorage
-        localStorage.setItem("token", token);
+        localStorage.setItem("jwt", token);
 
         localStorage.setItem('user', JSON.stringify(result.user));
 

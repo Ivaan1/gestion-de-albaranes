@@ -67,7 +67,7 @@ const EmailVerification = () => {
     const verificationCode = parseInt(code.join(""), 10);
     try {
 
-      const token = localStorage.getItem("token") || Cookies.get("jwt");
+      const token = localStorage.getItem("jwt") || Cookies.get("jwt");
 
       if (!token) {
         setMessage("Token no encontrado.");
@@ -83,7 +83,7 @@ const EmailVerification = () => {
             secure: true,
             sameSite: "strict"
         });
-        localStorage.setItem("token", response.token);
+        localStorage.setItem("jwt", response.token);
         router.push("/PaginaGestion");
 
       } else {

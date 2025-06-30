@@ -17,13 +17,15 @@ const PaginaGestion = () => {
 
   useEffect(() => {
     const fetchClientes = async () => {
-      const token = Cookies.get("jwt") || localStorage.getItem("token");
+      const token = Cookies.get("jwt") || localStorage.getItem("jwt");
       if (!token) {
         console.error("Token no encontrado");
         return;
       }
       //obtenemos los clientes 
       const data = await getClients(token);
+      console.log("Token utilizado:", token);
+        console.log("Clientes obtenidos:", data);
 
       if (data) {
         setClientes(data);

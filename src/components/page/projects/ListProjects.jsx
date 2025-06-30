@@ -31,8 +31,10 @@ const ListProjects = () => {
 
     const fetchUserProject = async () => {
         try {
-         const token = Cookies.get('token') || localStorage.getItem('token'); 
+         const token = Cookies.get('jwt') || localStorage.getItem('jwt'); 
          const response = await getProjects(token);
+         console.log("Token utilizado:", token);
+            console.log("Proyectos obtenidos:", response.data);
             setProjects (response.data);
             console.log("Proyectos recogidos");
           } catch (error) {

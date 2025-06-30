@@ -25,7 +25,7 @@ const AddAlbaranesForm = ({
 
     const watchedFormat = watch('format');
     const watchedClient = watch('client');
-    const token = Cookies.get('token') || localStorage.getItem('token');
+    const token = Cookies.get('jwt') || localStorage.getItem('jwt');
 
     // Cargar clientes y proyectos cuando se abre el formulario
     useEffect(() => {

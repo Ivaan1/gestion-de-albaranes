@@ -66,6 +66,7 @@ const LoginForm = () => {
 
       if (token) {
         Cookies.set('jwt', token);
+        localStorage.setItem('jwt', token);
         router.push('/PaginaGestion');
       } else {
         setErrorMessage("Usuario o contraseña no válidos");

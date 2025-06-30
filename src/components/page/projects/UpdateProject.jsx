@@ -63,7 +63,7 @@ const UpdateProject = () => {
     const onSubmit = async (data) => {
         setSaving(true);
         try {
-            const token = Cookies.get('token') || localStorage.getItem('token');
+            const token = Cookies.get('jwt') || localStorage.getItem('jwt');
             
             await updateProject(token, projectId, data);
             console.log("projectId:", projectId);

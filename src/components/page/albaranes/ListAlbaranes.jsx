@@ -25,8 +25,9 @@ const ListAlbaranes = () => {
 
     const { register, handleSubmit, watch, setValue } = useForm();
 
-    const token = Cookies.get('token') || localStorage.getItem('token');
+    const token = Cookies.get('jwt') || localStorage.getItem('jwt');
     
+    console.log("Token utilizado:", token);
     const watchedClient = watch('client');
 
     // Cargar datos iniciales
@@ -52,6 +53,10 @@ const ListAlbaranes = () => {
                 getProjects(token),
                 getAlbaranes(token)
             ]);
+            console.log("token : ", token);
+            console.log("Datos de clientes:", clientsData);
+            console.log("Datos de proyectos:", projectsResponse.data);
+            console.log("Datos de albaranes:", albaranesResponse.data);
 
             setClients(clientsData);
             setProjects(projectsResponse.data);

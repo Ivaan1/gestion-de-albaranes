@@ -24,8 +24,12 @@ const AddProjects = ({ onProjectAdded }) => {
     useEffect(() => {
         const fetchUserClients = async () => {
           try {
-            const token = localStorage.getItem("token") || Cookies.get("jwt");
+            const token = Cookies.get('jwt') || localStorage.getItem('jwt');
+            
             const clientes = await getClients(token);
+
+            console.log("Token utilizado:", token);
+            console.log("Clientes obtenidos:", clientes);
  
             const clientesname = clientes.map(client => client.name);
             const clientesId = clientes.map(client => client._id);
@@ -43,7 +47,7 @@ const AddProjects = ({ onProjectAdded }) => {
 
     const onSubmit = async (data) => {
         try {
-            const token = localStorage.getItem("token") || Cookies.get("jwt");
+            const token = localStorage.getItem("jwt") || Cookies.get("jwt");
 
             const payload = {
                 name: data.name,
