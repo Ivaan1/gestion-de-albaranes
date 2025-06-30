@@ -13,7 +13,7 @@ const ProfilePage = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [profileImage, setProfileImage] = useState(null);
     
-    const token = Cookies.get('token') || localStorage.getItem('token');
+    const token = Cookies.get('jwt') || localStorage.getItem('jwt');
 
     // Formulario principal
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm();

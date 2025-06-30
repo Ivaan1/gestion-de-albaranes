@@ -17,20 +17,7 @@ const ListClients = () => {
         setSelectedClient(client);
     };
 
-    // Function to get token from cookies or localStorage
-    const getToken = () => {
-        // Check if we're in the browser environment
-        if (typeof window !== 'undefined') {
-            // Try to get from cookies first, then localStorage
-            const cookieToken = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('token='))
-                ?.split('=')[1];
-            
-            return cookieToken || localStorage.getItem('token');
-        }
-        return null;
-    };
+
 
     useEffect(() => {
         const fetchUserClients = async () => {

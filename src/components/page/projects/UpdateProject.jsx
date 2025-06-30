@@ -28,7 +28,7 @@ const UpdateProject = () => {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const token = Cookies.get('token') || localStorage.getItem('token'); 
+                const token = Cookies.get('jwt') || localStorage.getItem('jwt'); 
 
                 if (!token) {
                     console.error("Token no encontrado");
